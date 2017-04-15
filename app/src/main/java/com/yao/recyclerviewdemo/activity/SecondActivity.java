@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.yao.recyclerviewdemo.R;
 import com.yao.recyclerviewdemo.adapter.FirstAndSecondAdapter;
@@ -76,6 +77,25 @@ public class SecondActivity extends AppCompatActivity {
 
         recyclerview.setAdapter(mFirstAndSecondAdapter);
         initData();
+        initRecyclerViewLisenter();
+    }
+
+    /**
+     * 设置RecyclerView的监听事件
+     */
+    private void initRecyclerViewLisenter() {
+        mFirstAndSecondAdapter.setOnItemClickLisenter(new FirstAndSecondAdapter.OnRecyclerViewItemClickLisenter() {
+            @Override
+            public void onItemClick(View view, String content) {
+                Toast.makeText(SecondActivity.this, content, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onItemLongClick(View view, String content) {
+                Toast.makeText(SecondActivity.this, "长按--" + content, Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void initData() {
