@@ -2,6 +2,7 @@ package com.yao.recyclerviewdemo.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ import java.util.List;
 
 public class FirstAndSecondAdapter extends RecyclerView.Adapter implements View.OnClickListener, View.OnLongClickListener {
 
-
+    public static final int TYPE_FOOT = 4;
 
     /**
      * 创建接口
@@ -67,6 +68,9 @@ public class FirstAndSecondAdapter extends RecyclerView.Adapter implements View.
                 view = inflater.inflate(R.layout.item_recyclerview_three, parent, false);
                 vh = new TypeThreeViewHolder(view);
                 break;
+            case TYPE_FOOT:// 加载更多布局
+                view = inflater.inflate(R.layout.item_foot, parent, false);
+                return new TypeFootViewHolder(view);
         }
         view.setOnClickListener(this);
         view.setOnLongClickListener(this);
@@ -76,18 +80,25 @@ public class FirstAndSecondAdapter extends RecyclerView.Adapter implements View.
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof TypeFootViewHolder) {
+            return;
+        }
         ((BaseViewHolder)holder).bindHolder(mList.get(position));
         ((BaseViewHolder)holder).itemView.setTag(mList.get(position).content);
     }
 
     @Override
     public int getItemViewType(int position) {
-        return mList.get(position).type;
+        if (position + 1 == getItemCount()) {// 因为多了一个foot View所以需要判断两个情况
+            return TYPE_FOOT;
+        } else {
+            return mList.get(position).type;
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mList.size();
+        return mList.size() == 0 ? 0 : mList.size() + 1;
     }
 
 
@@ -107,4 +118,9 @@ public class FirstAndSecondAdapter extends RecyclerView.Adapter implements View.
         return false;
     }
 
+    static class TypeFootViewHolder extends RecyclerView.ViewHolder {
+        public TypeFootViewHolder(View footview) {
+            super(footview);
+        }
+    }
 }
