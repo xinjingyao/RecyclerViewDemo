@@ -60,6 +60,15 @@ public class FirstActivity extends AppCompatActivity implements SwipeRefreshLayo
         swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.colorAccent),
                 getResources().getColor(R.color.colorPrimary),
                 getResources().getColor(R.color.colorPrimaryDark));
+         /*
+         * true:progressbar可以缩放
+         * start：开始Y轴
+         * end：结束Y轴
+         */
+        swipeRefresh.setProgressViewOffset(false, 0,
+                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24,
+                        getResources().getDisplayMetrics()));
+
         //设置第一次进来页面是刷新
         swipeRefresh.post(new Runnable() {
             @Override
@@ -69,14 +78,6 @@ public class FirstActivity extends AppCompatActivity implements SwipeRefreshLayo
             }
         });
 
-        /*
-         * true:progressbar可以缩放
-         * start：开始Y轴
-         * end：结束Y轴
-         */
-        swipeRefresh.setProgressViewOffset(false, 0,
-                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24,
-                        getResources().getDisplayMetrics()));
         swipeRefresh.setOnRefreshListener(this);
     }
 
@@ -87,7 +88,7 @@ public class FirstActivity extends AppCompatActivity implements SwipeRefreshLayo
         io.reactivex.Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(ObservableEmitter<String> e) throws Exception {
-                Thread.sleep(2000);
+                Thread.sleep(3000);
                 e.onNext("刷新成功");
             }
         })
